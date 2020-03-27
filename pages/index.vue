@@ -23,10 +23,57 @@
 // import FormCollectionAT from '~/components/FormCollectionAT'
 import InventoryList from '~/components/InventoryList'
 
+import Airtable from 'airtable'
+
+// Airtable.configure({
+//   endpointUrl: 'https://api.airtable.com',
+//   apiKey: 'keyuT2yD8poDXvOPF'
+// })
+
+const base = new Airtable({apiKey: 'keyuT2yD8poDXvOPF'}).base('apptGwYXiNB8Jn1wg');
+
+
 export default {
   components: {
     // FormCollectionAT
     InventoryList
+  },
+  mounted () {
+    let context = this
+    base('first import').select({
+      // Selecting the first 3 records in Grid view:
+      maxRecords: 1000,
+      pageSize: 100,
+      view: "Grid view",
+      // offset: context.offset,
+      }).eachPage(function page(records, fetchNextPage) {
+        // This function (`page`) will get called for each page of records.
+
+        records.forEach(function(record) {
+        //   let thisRecord = {
+        //     dateShot: record.get('Date Shot'),
+        //     description: record.get('Description'),
+        //     set: record.get('Set'),
+        //     material: record.get('Material')
+        //   }
+        //   context.items.push(thisRecord)
+        //   // context.offset = thisRecord.offset
+        //     // console.log('Retrieved', record.get('Date Shot'))
+          context.$store.dispatch('items/add', record._rawJson)
+        });
+        // myRecords.push(records)
+        // console.log(records)
+        fetchNextPage();
+
+      // To fetch the next page of records, call `fetchNextPage`.
+      // If there are more records, `page` will get called again.
+      // If there are no more records, `done` will get called.
+      // context.fetchNextPage = fetchNextPage();
+
+      }, function done(err) {
+        console.log('done')
+        if (err) { console.error(err); return; }
+      });
   }
 }
 </script>
