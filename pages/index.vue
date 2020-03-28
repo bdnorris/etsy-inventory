@@ -7,28 +7,15 @@
       <h2 class="subtitle">
         My well-made Nuxt.js project
       </h2>
-      <!-- <FormCollectionAT
-        db-collection="Etsy Inventory"
-        site-key="6Le-940UAAAAAAgnWJwbfxpTOA4DQ3e-gQ7akxOC"
-        at-api="keyuT2yD8poDXvOPF"
-        at-base-id="apptGwYXiNB8Jn1wg"
-      /> -->
       <InventoryList />
     </div>
   </div>
 </template>
 
 <script>
-// import Logo from '~/components/Logo.vue'
-// import FormCollectionAT from '~/components/FormCollectionAT'
 import InventoryList from '~/components/InventoryList'
 
 import Airtable from 'airtable'
-
-// Airtable.configure({
-//   endpointUrl: 'https://api.airtable.com',
-//   apiKey: 'keyuT2yD8poDXvOPF'
-// })
 
 const base = new Airtable({apiKey: 'keyuT2yD8poDXvOPF'}).base('apptGwYXiNB8Jn1wg');
 
@@ -48,21 +35,9 @@ export default {
       // offset: context.offset,
       }).eachPage(function page(records, fetchNextPage) {
         // This function (`page`) will get called for each page of records.
-
         records.forEach(function(record) {
-        //   let thisRecord = {
-        //     dateShot: record.get('Date Shot'),
-        //     description: record.get('Description'),
-        //     set: record.get('Set'),
-        //     material: record.get('Material')
-        //   }
-        //   context.items.push(thisRecord)
-        //   // context.offset = thisRecord.offset
-        //     // console.log('Retrieved', record.get('Date Shot'))
           context.$store.dispatch('items/add', record._rawJson)
         });
-        // myRecords.push(records)
-        // console.log(records)
         fetchNextPage();
 
       // To fetch the next page of records, call `fetchNextPage`.

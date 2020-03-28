@@ -2,14 +2,24 @@
   <div>
     <h2>Inventory List</h2>
     <!-- {{items}} -->
-    <table>
-      <tr v-for="(item, index) in items" :key="index">
-        <td><strong>{{ item.fields.Description }}</strong></td>
-        <td>{{ item.fields.Material }}</td>
-        <td>{{ item.fields.Color }}</td>
-        <td>{{ item.fields["Date Shot"] }}</td>
-      </tr>
-    </table>
+    <!-- {{ materials }} -->
+    <ul>
+      <li v-for="(material, index) in materials" :key="index">
+        <button type="button">
+          {{ material }}
+        </button>
+      </li>
+    </ul>
+    <ul class="item_list">
+      <li v-for="(item, index) in items" :key="index">
+        <ul>
+          <li><strong>{{ item.fields.Description }}</strong></li>
+          <li>{{ item.fields.Material }}</li>
+          <li>{{ item.fields.Color }}</li>
+          <li>{{ item.fields["Date Shot"] }}</li>
+        </ul>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -20,6 +30,11 @@ export default {
   data() {
     return {
       items: []
+    }
+  },
+  computed: {
+    materials() {
+      return this.$store.getters['items/materials']
     }
   },
   mounted () {
@@ -33,6 +48,22 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+ul.item_list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  & li {
+    & ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      & li {
+        border: 1px solid #ccc;
+      }
+    }
+  }
+}
 </style>
