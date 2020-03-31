@@ -4,9 +4,6 @@
       <h1 class="title">
         etsy-inventory
       </h1>
-      <h2 class="subtitle">
-        My well-made Nuxt.js project
-      </h2>
       <InventoryList />
     </div>
   </div>

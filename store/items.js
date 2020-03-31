@@ -17,11 +17,11 @@ export const actions = {
 
 export const getters = {
     materials: (state) => {
-    console.log('getters', state.myItems)
+    // console.log('getters', state.myItems)
       let fullList = state.myItems.map((item) => {
-          return (typeof item.fields.Material !== 'undefined') ? item.fields.Material : false
+          return (typeof item.fields.Material !== 'undefined') ? item.fields.Material : null
       })
       return Array.from(new Set(fullList));
-    }
+    },
   }
   
